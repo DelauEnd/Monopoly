@@ -6,29 +6,26 @@ using UnityEngine;
 public class UserFigure : MonoBehaviour
 {
     public GameField gameField;
-    int currentPosition = 0;
+    public int currentPosition = 0;
     public int steps;
     public uint userMoney = 1500;
-    bool isMoving;
-    bool shouldMove;
+    public bool isMoving;
+    public bool shouldMove;
+    public bool moveEnded;
 
-
-    private void Update()
+    private void Start()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && !isMoving)
-        {
-            steps = UnityEngine.Random.Range(1, 7);
-            Debug.Log("Dice rolled: " + steps);
-            shouldMove = true;
-        }
+        gameField = transform.parent.parent.GetComponentInChildren<GameField>();
     }
 
     private void FixedUpdate()
     {
         if (shouldMove)
         {
+            moveEnded = false;
             StartCoroutine(Move());
             shouldMove = false;
+            moveEnded = true;
         }
     }
 
